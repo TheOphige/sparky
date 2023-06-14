@@ -31,4 +31,15 @@ data.printSchema()
 
 # COMMAND ----------
 
-data.
+app_count=data.groupBy('app').count()
+
+# COMMAND ----------
+
+query=(app_count.writeStream.queryName('count_query').outputMode('complete').format('memory').start())
+
+# COMMAND ----------
+
+spark.sql("select * from count_query ").toPandas().head(5)
+
+# COMMAND ----------
+
